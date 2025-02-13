@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinepolis</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">Cinépolis</div>
+        <form action="/procesar" method="post">
+            <div class="main">
+                <div class="section">
+                    <h3>Entradas</h3>
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required>
+
+                    <label for="cantidad">Cantidad de Compradores:</label>
+                    <input type="number" id="cantidad" name="cantidad" required>
+
+                    <p>¿Tarjeta Cinepolis?</p>
+                    <div class="radio-group">
+                        <input type="radio" id="si" name="tarjeta" value="si" required>
+                        <label for="si">Sí</label>
+                        <input type="radio" id="no" name="tarjeta" value="no" required>
+                        <label for="no">No</label>
+                    </div>
+
+                    <label for="boletos">Cantidad de Boletos:</label>
+                    <input type="number" id="boletos" name="boletos" required>
+                </div>
+
+                <div class="section">
+                    <h3>Salidas</h3>
+
+                    
+                    <label>Total a Pagar:</label>
+                    {% if error %}
+                    <p style="color: red;">{{ error }}</p>
+                    {% endif %}
+                    <h4>{{ resOp }}</h4>
+                </div>
+            </div>
+
+            <div class="actions">
+                <h3>Acciones</h3>
+                <button type="submit">Procesar</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
