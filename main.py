@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
@@ -28,6 +28,26 @@ def user(user):
 @app.route('/numero/<int:n>')
 def numero(n):
     return f'<h1>El número es: {n}</h1>'
+
+@app.route('/operaciones', methods=['POST', 'GET'])
+def operacionesBasicas():
+    if request.method == 'POST':
+        num1 = request.form.get("n1")
+        num2 = request.form.get("n2")
+        print("num1", num1)
+        print("num2", num2)
+        operacion = request.form.get("opOperacion")
+        if operacion == "suma":
+            resOp = f"La suma de {num1} y {num2} es: {int(num1) + int(num2)}"
+        elif operacion == "resta":
+            resOp = f"La resta de {num1} y {num2} es: {int(num1) - int(num2)}"
+        elif operacion == "multiplicacion":
+            resOp = f"La multiplicación de {num1} y {num2} es: {int(num1) * int(num2)}"
+        elif operacion == "division":
+            resOp = f"La división de {num1} y {num2} es: {int(num1) / int(num2)}"
+        
+        return render_template('operaciones.html', resOp=resOp)
+    return render_template('operaciones.html', resOp='')
 
 @app.route('/user/<int:id>/<string:username>')
 def user2(id, username):
