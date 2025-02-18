@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zodiaco Chino</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('../static/img/fondo\ zodiaco.jpg');
+            background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+            max-width: 1000px;
+            background-color: rgba(0, 0, 0, 0.6); 
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        form {
+            flex: 1;
+            background: #f4f4f4;
+            padding: 20px;
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+
+        input, button, label {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 8px;
+        }
+
+        button {
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .radio-group {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .radio-group input {
+            width: auto;
+        }
+
+        .result {
+            flex: 1;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            color: black;
+            text-align: center;
+        }
+
+        img {
+            margin-top: 20px;
+            width: 150px;
+            border-radius: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form action="/zodiaco" method="post">
+            <h2>Calcula tu signo zodiacal chino</h2>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <label for="apellidoP">Apaterno:</label>
+            <input type="text" id="apellidoP" name="apellidoP" required>
+
+            <label for="apellidoM">Amaterno:</label>
+            <input type="text" id="apellidoM" name="apellidoM" required>
+
+            <label for="anio">Año de nacimiento:</label>
+            <input type="number" id="anio" name="anio" required>
+            <div class="radio-group">
+                <label for="sexo">Sexo:</label>
+                <div>
+                    <input type="radio" id="hombre" name="sexo" value="Hombre" required>
+                    <label for="hombre">Hombre</label>
+                </div>
+                <div>
+                    <input type="radio" id="mujer" name="sexo" value="Mujer" required>
+                    <label for="mujer">Mujer</label>
+                </div>
+            </div>
+
+            <button type="submit">Imprimir</button>
+        </form>
+
+        {% if signo %}
+            <div class="result">
+                <h2>Hola, <strong>{{ nombre }} {{ apellidoP}} {{ apellidoM}}</strong>!</h2>
+                <p>Tienes <strong>{{ edad }}</strong> años.</p>
+                <p>Tu signo zodiacal chino es <strong>{{ signo }}</strong>.</p>
+                <img src="{{ url_for('static', filename=imagen) }}" alt="{{ signo }}">
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

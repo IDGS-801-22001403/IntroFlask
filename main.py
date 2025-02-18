@@ -1,4 +1,7 @@
 from flask import Flask, render_template, request
+from cinepolis import *
+from zodiaco import *
+
 
 app = Flask(__name__)
 
@@ -68,6 +71,42 @@ def func(param='juan'):
         </form>
         <h1>El parámetro es: {param}</h1>
     '''
+# cinepolis
+@app.route('/cinepolis')
+def cinepolis():
+    return render_template('cinepolis.html')
+
+@app.route('/procesar', methods=['POST'])
+def procesar():
+    nombre = request.form['nombre']
+    cantidad = int(request.form['cantidad'])
+    cantidad_boletos = int(request.form['boletos'])
+    tarjeta = request.form['tarjeta']
+
+    usa_tarjeta = tarjeta == 'si'
+    if cantidad_boletos > 7 * cantidad:
+        return render_template('cinepolis.html', error="No pueden comprar más de 7 boletos por persona.")
+    
+
+    total = calcular_total(cantidad_boletos, usa_tarjeta)
+    
+    resOp = f"${total:.2f}"
+
+    return render_template('cinepolis.html', resOp=resOp)
+
+#zodiaco
+@app.route('/zodiaco', methods=['GET', 'POST'])
+def zodiaco():
+    nombre = apellidoP =apellidoM = edad = signo = imagen = None
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        apellidoP = request.form['apellidoP']
+        apellidoM = request.form['apellidoM']
+        anio = int(request.form['anio'])
+        edad = calcular_edad(anio)
+        signo, imagen =  obtener_signo(anio)
+    return render_template('zodiaco.html', nombre=nombre, apellidoP=apellidoP, apellidoM=apellidoM, edad=edad, signo=signo, imagen=imagen)
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=3000)
